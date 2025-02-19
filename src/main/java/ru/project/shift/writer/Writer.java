@@ -1,4 +1,4 @@
-package ru.project.shift;
+package ru.project.shift.writer;
 
 import java.util.List;
 

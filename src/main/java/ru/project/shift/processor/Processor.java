@@ -1,4 +1,6 @@
-package ru.project.shift;
+package ru.project.shift.processor;
+
+import ru.project.shift.model.Data;
 
 import java.util.List;
 

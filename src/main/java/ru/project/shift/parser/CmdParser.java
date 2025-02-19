@@ -1,8 +1,9 @@
-package ru.project.shift;
+package ru.project.shift.parser;
 
 import org.apache.commons.cli.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.project.shift.model.OptionHolder;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -31,10 +32,20 @@ public class CmdParser {
         CommandLineParser parser = new DefaultParser();
         CommandLine cmd = parser.parse(options, args);
         List<String> inputFiles = Arrays.asList(cmd.getArgs());
-        if (inputFiles.size() == 0) {
-            LOG.error("Необходимо указать входные файлы.");
+        if (cmd.hasOption("h")) {
+            printHelp();
+            System.exit(0);
         }
-        //todo добавить обработку формата файла
+        if (inputFiles.size() == 0) {
+            throw new IllegalArgumentException("Необходимо указать входные файлы.");
+        }
+        for (String fileName : inputFiles) {
+            if (!fileName.matches("^[а-яА-Яa-zA-Z0-9_]+\\.txt$")) {
+                throw new IllegalArgumentException(
+                        String.format("Используйте формат файла: %s", "FILE_NAME.txt")
+                );
+            }
+        }
         return createOptionHolder(cmd, inputFiles);
     }
 
@@ -49,8 +60,14 @@ public class CmdParser {
             Path path = Paths.get(dir).toAbsolutePath();
             optionHolder.setOutputPath(path.toString());
         }
-        optionHolder.setShortStats(cmd.hasOption("s"));
-        optionHolder.setFullStats(cmd.hasOption("f"));
+        if (cmd.hasOption("s") && cmd.hasOption("f")) {
+            optionHolder.setFullStats(true);
+            optionHolder.setShortStats(false);
+        } else if (cmd.hasOption("s")) {
+            optionHolder.setShortStats(true);
+        } else if (cmd.hasOption("f")) {
+            optionHolder.setFullStats(true);
+        }
         optionHolder.setInputFiles(inputFiles);
         return optionHolder;
     }

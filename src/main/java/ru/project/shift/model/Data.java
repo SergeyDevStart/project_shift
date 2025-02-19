@@ -1,7 +1,8 @@
-package ru.project.shift;
+package ru.project.shift.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Data {
     private final List<Long> integers = new ArrayList<>();
@@ -30,5 +31,24 @@ public class Data {
 
     public List<String> getStrings() {
         return strings;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Data data = (Data) o;
+        return Objects.equals(integers, data.integers)
+                && Objects.equals(doubles, data.doubles)
+                && Objects.equals(strings, data.strings);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(integers, doubles, strings);
     }
 }

@@ -1,10 +1,16 @@
-package ru.project.shift;
+package ru.project.shift.processor;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.project.shift.model.Data;
+import ru.project.shift.model.OptionHolder;
+import ru.project.shift.filter.DataFilter;
+import ru.project.shift.filter.Filter;
+import ru.project.shift.parser.CmdParser;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +29,12 @@ public class DataProcessor implements Processor {
         Filter dataFilter = new DataFilter();
         Data data = new Data();
         for (String file : optionHolder.getInputFiles()) {
-            try (var reader = Files.newBufferedReader(Paths.get(file))) {
+            Path filePath = Path.of(file);
+            if (!Files.exists(filePath)) {
+                LOG.error(String.format("Файл %s не существует", filePath));
+                continue;
+            }
+            try (var reader = Files.newBufferedReader(filePath)) {
                 String line;
                 while ((line = reader.readLine()) != null) {
                     dataFilter.filter(data, line.trim());
