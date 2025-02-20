@@ -1,17 +1,13 @@
 package ru.project.shift.parser;
 
 import org.apache.commons.cli.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import ru.project.shift.creator.OptionHolderCreator;
 import ru.project.shift.model.OptionHolder;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 
 public class CmdParser {
-    private static final Logger LOG = LoggerFactory.getLogger(CmdParser.class.getName());
     private final Options options;
 
     public CmdParser() {
@@ -46,30 +42,8 @@ public class CmdParser {
                 );
             }
         }
-        return createOptionHolder(cmd, inputFiles);
-    }
-
-    private OptionHolder createOptionHolder(CommandLine cmd, List<String> inputFiles) {
-        OptionHolder optionHolder = new OptionHolder();
-        optionHolder.setAppendMode(cmd.hasOption("a"));
-        optionHolder.setPrefix(cmd.getOptionValue("p", ""));
-        String dir = cmd.getOptionValue("o");
-        if (dir == null || dir.isEmpty()) {
-            optionHolder.setOutputPath(System.getProperty("user.dir"));
-        } else {
-            Path path = Paths.get(dir).toAbsolutePath();
-            optionHolder.setOutputPath(path.toString());
-        }
-        if (cmd.hasOption("s") && cmd.hasOption("f")) {
-            optionHolder.setFullStats(true);
-            optionHolder.setShortStats(false);
-        } else if (cmd.hasOption("s")) {
-            optionHolder.setShortStats(true);
-        } else if (cmd.hasOption("f")) {
-            optionHolder.setFullStats(true);
-        }
-        optionHolder.setInputFiles(inputFiles);
-        return optionHolder;
+        OptionHolderCreator creator = new OptionHolderCreator();
+        return creator.create(cmd, inputFiles);
     }
 
     public void printHelp() {

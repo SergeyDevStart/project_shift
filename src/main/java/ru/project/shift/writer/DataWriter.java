@@ -13,8 +13,8 @@ import java.util.List;
 
 public class DataWriter implements Writer {
     private static final Logger LOG = LoggerFactory.getLogger(CmdParser.class.getName());
-    private List<Data> dataList;
-    private OptionHolder optionHolder;
+    private final List<Data> dataList;
+    private final OptionHolder optionHolder;
 
     public DataWriter(List<Data> dataList, OptionHolder optionHolder) {
         this.dataList = dataList;
