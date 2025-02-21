@@ -2,21 +2,19 @@ package ru.project.shift.processor;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.project.shift.model.Data;
-import ru.project.shift.model.OptionHolder;
 import ru.project.shift.filter.DataFilter;
 import ru.project.shift.filter.Filter;
-import ru.project.shift.parser.CmdParser;
+import ru.project.shift.model.Data;
+import ru.project.shift.model.OptionHolder;
+import ru.project.shift.reader.DataReader;
 
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DataProcessor implements Processor {
-    private static final Logger LOG = LoggerFactory.getLogger(CmdParser.class.getName());
+    private static final Logger LOG = LoggerFactory.getLogger(DataProcessor.class.getName());
     private final OptionHolder optionHolder;
     private final List<Data> dataList = new ArrayList<>();
 
@@ -24,27 +22,25 @@ public class DataProcessor implements Processor {
         this.optionHolder = optionHolder;
     }
 
+    /**
+     * Читает входные файлы, фильтрует их содержимое и добавляет обработанные данные в список `dataList`.
+     * Ошибки логируются, но обработка остальных файлов продолжается.
+     */
     @Override
     public void process() {
-        Filter dataFilter = new DataFilter();
-        Data data = new Data();
+        Filter filter = new DataFilter();
+        DataReader reader = new DataReader();
+        Data data;
         for (String file : optionHolder.getInputFiles()) {
+            data = new Data();
             Path filePath = Path.of(file);
             if (!Files.exists(filePath)) {
-                LOG.error(String.format("Файл %s не существует", filePath));
+                LOG.error("Файл {} не существует", filePath);
                 continue;
             }
-            try (var reader = Files.newBufferedReader(filePath)) {
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    dataFilter.filter(data, line.trim());
-                }
-            } catch (IOException e) {
-                LOG.error(String.format("Ошибка чтения файла: %s", file), e);
-            }
-            dataList.add(data);
-            if (optionHolder.isAppendMode()) {
-                data = new Data();
+            boolean hasData = reader.read(filter, data, filePath);
+            if (hasData) {
+                dataList.add(data);
             }
         }
     }
