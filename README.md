@@ -1,4 +1,5 @@
 # project_shift
+![CI GitHubAction](https://github.com/SergeyDevStart/project_shift/actions/workflows/maven.yml/badge.svg)
 
 ## Описание проекта
 Данный проект - это консольное приложение, разрабатываемое в качестве тестового задания для проекта ШИФТ.
