@@ -6,7 +6,7 @@ public class ShortStatisticPrinter implements Printer {
         System.out.printf(
                 """
                 Краткая статистика для целых чисел:
-                Количество элементов: %d
+                Количество элементов: %d%n
                 """, statisticHolder.getCount()
         );
     }
@@ -16,7 +16,7 @@ public class ShortStatisticPrinter implements Printer {
         System.out.printf(
                 """
                 Краткая статистика для вещественных чисел:
-                Количество элементов: %d
+                Количество элементов: %d%n
                 """, statisticHolder.getCount()
         );
     }
@@ -26,7 +26,7 @@ public class ShortStatisticPrinter implements Printer {
         System.out.printf(
                 """
                 Краткая статистика для строк:
-                Количество элементов: %d
+                Количество элементов: %d%n
                 """, statisticHolder.getCount()
         );
     }

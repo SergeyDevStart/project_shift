@@ -10,7 +10,7 @@ public class FullStatisticPrinter implements Printer {
                 Минимальное значение: %d
                 Максимальное значение: %d
                 Среднее значение: %.2f
-                Сумма: %d
+                Сумма: %d%n
                 """,
                 statisticHolder.getCount(),
                 (long) statisticHolder.getMin(),
@@ -29,7 +29,7 @@ public class FullStatisticPrinter implements Printer {
                 Минимальное значение: %f
                 Максимальное значение: %f
                 Среднее значение: %f
-                Сумма: %f
+                Сумма: %f%n
                 """,
                 statisticHolder.getCount(),
                 statisticHolder.getMin(),
@@ -46,7 +46,7 @@ public class FullStatisticPrinter implements Printer {
                 Полная статистика для строк:
                 Количество элементов: %d
                 Длина самой короткой строки: %d
-                Длина самой длинной строки: %d
+                Длина самой длинной строки: %d%n
                 """,
                 statisticHolder.getCount(),
                 Math.round(statisticHolder.getMin()),
