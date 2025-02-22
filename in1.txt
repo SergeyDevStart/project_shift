@@ -1,23 +1,8 @@
 Lorem ipsum dolor sit amet
-42
-Пример текста
+45
+Пример
 3.1415
-consectetur adipiscing elit
+consectetur adipiscing
 -0.001
 тестовое задание
 100500
-Hello world
--273
-Sample text
-2.718
-Random data entry
-0.007
-Machine learning model
-9999
-Тестовые данные
--42
-Java programming
-1.618
-Кодирование и декодирование
-500
-Строка с пробелами

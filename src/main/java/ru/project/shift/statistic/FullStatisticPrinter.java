@@ -26,10 +26,10 @@ public class FullStatisticPrinter implements Printer {
                 """
                 Полная статистика для вещественных чисел:
                 Количество элементов: %d
-                Минимальное значение: %f
-                Максимальное значение: %f
-                Среднее значение: %f
-                Сумма: %f%n
+                Минимальное значение: %g
+                Максимальное значение: %g
+                Среднее значение: %g
+                Сумма: %g%n
                 """,
                 statisticHolder.getCount(),
                 statisticHolder.getMin(),
